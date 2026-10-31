@@ -1,0 +1,26 @@
+{
+  "category": "logo-reveal",
+  "duration_s": 9.5,
+  "fps": 30,
+  "canvas": { "w": 1920, "h": 1080, "aspect": "16:9" },
+  "style": "Terminal-noir glassmorphism matching the AGENT//OS academy app: near-black #06090c with mint/violet gradient-mesh glows, faint 44px grid, JetBrains Mono terminal text with block caret, Unbounded display wordmark. Energy: precise, technical, cinematic.",
+  "palette": ["#06090c", "#4fe3a5", "#63d2ff", "#a78bfa", "#ffc46b", "#e9f2ee"],
+  "font": "Unbounded",
+  "beats": [36, 105, 165, 240, 285],
+  "export": "mp4",
+  "asset_needs": [],
+  "block": "logo-outro",
+  "customize": {
+    "wordmark": "AGENT//OS as 9 typographic pieces (AGENT white, //OS mint #4fe3a5), Unbounded 800",
+    "tagline": "APRENDE A DIRIGIR AGENTES DE IA COMO UN PRO (per-word reveal)",
+    "pill": "glass pill, JetBrains Mono: ACADEMIA INTERACTIVA - PI - OPENCODE - LLMs LOCALES",
+    "palette": "transparent canvas over host background; mint glow bloom; app palette",
+    "additions": "accent underline sweep anchoring wordmark to tagline; end hold with breathing"
+  },
+  "content": {
+    "logo": "Typographic wordmark AGENT//OS (styled text, no raster asset)",
+    "tagline": "APRENDE A DIRIGIR AGENTES DE IA COMO UN PRO",
+    "url": "ACADEMIA INTERACTIVA - PI - OPENCODE - LLMs LOCALES"
+  },
+  "shot_brief": "9.5s logo sting, two scenes, one motif: the loop becomes the brand. SCENE 1 (0-3.6s, hand-authored): terminal card types '$ pi corrige el test roto' with blinking block caret; the prompt dissolves as the agentic loop draws on (solid mint ring over faint dashed guide), 4 nodes punch in (RAZONA, ACTUA, OBSERVA, CORRIGE) with pi glyph at center, pulse orbits the ring; the whole loop collapses into center. SCENE 2 (3.3-4.3s flash, then logo-outro 3.6-9.5s): mint flash burst bridges; wordmark assembles piece by piece with glow bloom and underline sweep; tagline word-reveals; glass pill fades up; hold with breathing."
+}

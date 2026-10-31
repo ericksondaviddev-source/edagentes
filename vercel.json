@@ -1,0 +1,7 @@
+// AGENT/OS — Vercel: el dominio raíz sirve la app (que vive en src/)
+{
+  "rewrites": [
+    { "source": "/", "destination": "/src/agent-os-academy.html" },
+    { "source": "/favicon.ico", "destination": "/src/agent-os-academy.html" }
+  ]
+}

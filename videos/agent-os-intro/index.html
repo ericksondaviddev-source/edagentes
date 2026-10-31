@@ -1,0 +1,314 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <title>AGENT//OS — Intro</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700;800&family=JetBrains+Mono:wght@400;600;700&display=block"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <style>
+      :root {
+        --bg: #06090c;
+        --mint: #4fe3a5;
+        --sky: #63d2ff;
+        --violet: #a78bfa;
+        --amber: #ffc46b;
+        --text: #e9f2ee;
+        --dim: #8fa39c;
+        --faint: #576964;
+      }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        margin: 0;
+        width: 1920px;
+        height: 1080px;
+        overflow: hidden;
+        background: var(--bg);
+      }
+      body {
+        font-family: "JetBrains Mono", monospace;
+      }
+      #root {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        background: var(--bg);
+      }
+      .clip {
+        position: absolute;
+        inset: 0;
+      }
+
+      /* ---------- background layer ---------- */
+      #bg .glow {
+        position: absolute;
+        border-radius: 50%;
+        pointer-events: none;
+      }
+      #bg .glow-mint {
+        width: 1500px;
+        height: 1200px;
+        left: -380px;
+        top: -420px;
+        background: radial-gradient(circle, rgba(79, 227, 165, 0.14) 0%, rgba(6, 9, 12, 0) 65%);
+      }
+      #bg .glow-violet {
+        width: 1400px;
+        height: 1150px;
+        right: -420px;
+        bottom: -380px;
+        background: radial-gradient(circle, rgba(120, 119, 255, 0.13) 0%, rgba(6, 9, 12, 0) 65%);
+      }
+      #bg .grid {
+        position: absolute;
+        inset: 0;
+        background-image: linear-gradient(rgba(255, 255, 255, 0.028) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(255, 255, 255, 0.028) 1px, transparent 1px);
+        background-size: 44px 44px;
+        -webkit-mask-image: radial-gradient(72% 62% at 50% 42%, #000 25%, transparent 100%);
+        mask-image: radial-gradient(72% 62% at 50% 42%, #000 25%, transparent 100%);
+      }
+      #bg .noise {
+        position: absolute;
+        inset: 0;
+        opacity: 0.55;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .04 0'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E");
+      }
+      #bg .vignette {
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(80% 70% at 50% 46%, transparent 55%, rgba(2, 4, 6, 0.55) 100%);
+      }
+
+      /* ---------- scene 1: terminal + loop ---------- */
+      #scene-loop .scene-content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 34px;
+        width: 100%;
+        height: 100%;
+        padding: 90px 160px;
+      }
+      #scene-loop .term {
+        width: 920px;
+        background: rgba(255, 255, 255, 0.045);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 18px;
+        overflow: hidden;
+        box-shadow: 0 30px 70px -30px rgba(0, 0, 0, 0.8), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+      }
+      #scene-loop .term-bar {
+        display: flex;
+        align-items: center;
+        gap: 7px;
+        padding: 13px 16px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+        background: rgba(255, 255, 255, 0.03);
+      }
+      #scene-loop .term-bar i {
+        width: 11px;
+        height: 11px;
+        border-radius: 50%;
+        display: block;
+      }
+      #scene-loop .term-bar i:nth-child(1) { background: #ff5f57; }
+      #scene-loop .term-bar i:nth-child(2) { background: #febc2e; }
+      #scene-loop .term-bar i:nth-child(3) { background: #28c840; }
+      #scene-loop .term-bar span {
+        margin-left: 8px;
+        font-size: 13px;
+        color: #8ba39b;
+        letter-spacing: 1px;
+      }
+      #scene-loop .term-body {
+        padding: 22px 26px;
+        font-size: 27px;
+        color: var(--text);
+        display: flex;
+        align-items: center;
+        white-space: nowrap;
+      }
+      #scene-loop .pre {
+        color: var(--mint);
+        font-weight: 700;
+        margin-right: 14px;
+      }
+      #scene-loop .ch {
+        opacity: 0;
+      }
+      #scene-loop .caret {
+        display: inline-block;
+        width: 15px;
+        height: 32px;
+        background: var(--mint);
+        margin-left: 4px;
+        vertical-align: -4px;
+      }
+      #scene-loop .loop-wrap {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+      }
+      #scene-loop svg {
+        display: block;
+        width: 560px;
+        height: auto;
+      }
+      #scene-loop .loop-cap {
+        font-size: 15px;
+        letter-spacing: 6px;
+        color: #8ba39b;
+        opacity: 0;
+      }
+
+      /* ---------- flash ---------- */
+      #flash .flash-core {
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(46% 46% at 50% 47%, rgba(79, 227, 165, 0.5) 0%, rgba(79, 227, 165, 0.14) 42%, rgba(6, 9, 12, 0) 72%);
+        opacity: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div
+      id="root"
+      data-composition-id="main"
+      data-start="0"
+      data-duration="9.5"
+      data-fps="30"
+      data-width="1920"
+      data-height="1080"
+    >
+      <!-- background (full duration) -->
+      <div id="bg" class="clip" data-start="0" data-duration="9.5" data-track-index="0">
+        <div class="glow glow-mint" id="glow-mint"></div>
+        <div class="glow glow-violet" id="glow-violet"></div>
+        <div class="grid"></div>
+        <div class="noise"></div>
+        <div class="vignette"></div>
+      </div>
+
+      <!-- scene 1: terminal + agentic loop -->
+      <div id="scene-loop" class="clip" data-start="0" data-duration="3.6" data-track-index="1">
+        <div class="scene-content">
+          <div class="term" id="term-card">
+            <div class="term-bar"><i></i><i></i><i></i><span>pi — agent-os/academy</span></div>
+            <div class="term-body">
+              <span class="pre">❯</span><span id="cmd"><span class="ch">$</span><span class="ch">&nbsp;</span><span class="ch">p</span><span class="ch">i</span><span class="ch">&nbsp;</span><span class="ch">«</span><span class="ch">c</span><span class="ch">o</span><span class="ch">r</span><span class="ch">r</span><span class="ch">i</span><span class="ch">g</span><span class="ch">e</span><span class="ch">&nbsp;</span><span class="ch">e</span><span class="ch">l</span><span class="ch">&nbsp;</span><span class="ch">t</span><span class="ch">e</span><span class="ch">s</span><span class="ch">t</span><span class="ch">&nbsp;</span><span class="ch">r</span><span class="ch">o</span><span class="ch">t</span><span class="ch">o</span><span class="ch">»</span></span><span class="caret" id="caret"></span>
+            </div>
+          </div>
+          <div class="loop-wrap" id="loop-wrap">
+            <svg viewBox="0 0 520 460" id="loop-svg" aria-hidden="true">
+              <circle id="ring-guide" cx="260" cy="212" r="130" fill="none" stroke="rgba(79,227,165,.22)" stroke-width="2" stroke-dasharray="5 10"/>
+              <circle id="ring-draw" cx="260" cy="212" r="130" fill="none" stroke="#4fe3a5" stroke-width="3" stroke-linecap="round" stroke-dasharray="816.8" stroke-dashoffset="816.8" transform="rotate(-90 260 212)"/>
+              <g id="orbit-g">
+                <circle cx="260" cy="82" r="8" fill="#4fe3a5"/>
+              </g>
+              <g id="node-1">
+                <circle cx="260" cy="82" r="37" fill="rgba(79,227,165,.13)" stroke="#4fe3a5" stroke-width="2"/>
+                <text x="260" y="88" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="15" font-weight="600" fill="#4fe3a5">RAZONA</text>
+              </g>
+              <g id="node-2">
+                <circle cx="390" cy="212" r="37" fill="rgba(99,210,255,.12)" stroke="#63d2ff" stroke-width="2"/>
+                <text x="390" y="218" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="15" font-weight="600" fill="#63d2ff">ACTÚA</text>
+              </g>
+              <g id="node-3">
+                <circle cx="260" cy="342" r="37" fill="rgba(255,196,107,.12)" stroke="#ffc46b" stroke-width="2"/>
+                <text x="260" y="348" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="15" font-weight="600" fill="#ffc46b">OBSERVA</text>
+              </g>
+              <g id="node-4">
+                <circle cx="130" cy="212" r="37" fill="rgba(167,139,250,.13)" stroke="#a78bfa" stroke-width="2"/>
+                <text x="130" y="218" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="15" font-weight="600" fill="#a78bfa">CORRIGE</text>
+              </g>
+              <g id="hub">
+                <circle cx="260" cy="212" r="27" fill="rgba(79,227,165,.16)" stroke="rgba(79,227,165,.7)" stroke-width="2"/>
+                <text x="260" y="221" text-anchor="middle" font-family="Unbounded, sans-serif" font-size="19" font-weight="700" fill="#e9f2ee">pi</text>
+              </g>
+            </svg>
+            <div class="loop-cap" id="loop-cap">EL BUCLE AGÉNTICO</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- flash bridge -->
+      <div id="flash" class="clip" data-start="3.3" data-duration="1.1" data-track-index="2">
+        <div class="flash-core" id="flash-core"></div>
+      </div>
+
+      <!-- scene 2: logo-outro sub-composition -->
+      <div
+        id="logo-outro"
+        data-composition-id="logo-outro"
+        data-composition-src="compositions/logo-outro.html"
+        data-start="3.6"
+        data-duration="5.9"
+        data-track-index="1"
+        data-width="1920"
+        data-height="1080"
+      ></div>
+    </div>
+
+    <script>
+      window.__timelines = window.__timelines || {};
+      const tl = gsap.timeline({ paused: true });
+
+      /* ---- background ambient (slow drifts, one direction each) ---- */
+      tl.fromTo("#glow-mint", { x: 0, y: 0 }, { x: 90, y: 50, duration: 9.2, ease: "sine.inOut" }, 0);
+      tl.fromTo("#glow-violet", { x: 0, y: 0 }, { x: -70, y: -40, duration: 9.2, ease: "sine.inOut" }, 0);
+
+      /* ---- scene 1: terminal card enters ---- */
+      tl.fromTo("#term-card", { y: 42, opacity: 0 }, { y: 0, opacity: 1, duration: 0.55, ease: "power4.out" }, 0.15);
+
+      /* ---- typing: chars reveal, caret blinks ---- */
+      const chars = "#scene-loop .ch";
+      tl.fromTo(chars, { opacity: 0 }, { opacity: 1, duration: 0.01, stagger: 0.05, ease: "none" }, 0.35);
+      tl.fromTo("#caret", { opacity: 1 }, { opacity: 0, duration: 0.14, repeat: 15, yoyo: true, ease: "sine.inOut" }, 0.35);
+
+      /* ---- card dissolves as the loop takes over ---- */
+      tl.to("#term-card", { y: -26, opacity: 0, scale: 0.965, duration: 0.4, ease: "power2.in" }, 1.52);
+
+      /* ---- loop: ring draws on (solid over dashed guide) ---- */
+      tl.fromTo("#loop-wrap", { opacity: 0 }, { opacity: 1, duration: 0.3, ease: "power1.out" }, 1.5);
+      tl.fromTo("#ring-draw", { strokeDashoffset: 816.8 }, { strokeDashoffset: 0, duration: 0.95, ease: "power2.inOut" }, 1.6);
+      /* guide ring ambient dash-flow (finite, seekable) */
+      tl.fromTo("#ring-guide", { strokeDashoffset: 0 }, { strokeDashoffset: -60, duration: 2.1, ease: "none" }, 1.6);
+
+      /* ---- nodes punch in, hub holds center ---- */
+      tl.fromTo("#hub", { scale: 0.4, opacity: 0, transformOrigin: "50% 50%" }, { scale: 1, opacity: 1, duration: 0.5, ease: "back.out(2)" }, 1.95);
+      tl.fromTo("#node-1", { scale: 0.4, opacity: 0, transformOrigin: "50% 50%" }, { scale: 1, opacity: 1, duration: 0.45, ease: "back.out(2.2)" }, 2.05);
+      tl.fromTo("#node-2", { scale: 0.4, opacity: 0, transformOrigin: "50% 50%" }, { scale: 1, opacity: 1, duration: 0.45, ease: "back.out(2.2)" }, 2.2);
+      tl.fromTo("#node-4", { scale: 0.4, opacity: 0, transformOrigin: "50% 50%" }, { scale: 1, opacity: 1, duration: 0.45, ease: "back.out(2.2)" }, 2.35);
+      tl.fromTo("#node-3", { scale: 0.4, opacity: 0, transformOrigin: "50% 50%" }, { scale: 1, opacity: 1, duration: 0.45, ease: "back.out(2.2)" }, 2.5);
+      tl.fromTo("#loop-cap", { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.5, ease: "power3.out" }, 2.55);
+
+      /* ---- pulse orbits the ring ---- */
+      tl.fromTo("#orbit-g", { opacity: 0 }, { opacity: 1, duration: 0.25, ease: "power1.out" }, 1.95);
+      tl.fromTo("#orbit-g", { rotation: 0, svgOrigin: "260 212" }, { rotation: 330, duration: 1.35, ease: "power1.inOut" }, 2.05);
+
+      /* ---- collapse into the flash ---- */
+      tl.to("#loop-wrap", { scale: 0.1, opacity: 0, transformOrigin: "50% 50%", duration: 0.42, ease: "power3.in" }, 3.14);
+
+      /* ---- flash bridge ---- */
+      tl.fromTo("#flash-core", { opacity: 0, scale: 0.55, transformOrigin: "50% 50%" }, { opacity: 1, scale: 1, duration: 0.22, ease: "power2.out" }, 3.32);
+      tl.to("#flash-core", { opacity: 0, scale: 1.55, duration: 0.6, ease: "power2.in" }, 3.62);
+
+      tl.seek(0);
+      window.__timelines["main"] = tl;
+    </script>
+  </body>
+</html>
