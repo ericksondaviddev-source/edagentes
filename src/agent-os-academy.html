@@ -669,9 +669,9 @@ input{font-family:inherit;color:inherit}
 <div id="toasts"></div>
 <div id="confetti"></div>
 
-<script src="data/modulos.js"></script>
-<script src="data/misiones.js"></script>
-<script src="data/anims.js"></script>
+<script src="/src/data/modulos.js"></script>
+<script src="/src/data/misiones.js"></script>
+<script src="/src/data/anims.js"></script>
 <script>/* =====================================================
    AGENT/OS — engine
 ===================================================== */
@@ -815,7 +815,7 @@ function renderHome(){
     <div class="hero-kicker">Terminal Agent Academy</div>
     <h1>Aprende a dirigir <span>agentes de IA</span> como un profesional</h1>
     <p>pi · opencode · MCP · LLMs locales. Lecciones con audio, quizzes, simulador de terminal y una forja de artefactos descargables.</p>
-    <video class="hero-video" src="../videos/agent-os-intro/renders/video.mp4" poster="../videos/agent-os-intro/poster.jpg" autoplay muted loop playsinline preload="metadata"></video>
+    <video class="hero-video" src="/videos/agent-os-intro/renders/video.mp4" poster="/videos/agent-os-intro/poster.jpg" autoplay muted loop playsinline preload="metadata"></video>
     <div class="hero-foot">
       <div class="hero-cta">
         <button class="btn btn-pri" onclick="go('module:'+MODULES[0].id)">▶ ${store.lessons[MODULES[0].id] ? 'Continuar' : 'Empezar'} módulo 1</button>
