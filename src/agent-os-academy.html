@@ -681,8 +681,8 @@ let store = { xp:0, lessons:{}, quiz:{}, missions:{}, steps:{}, perfect:false, c
 try { const raw = localStorage.getItem(LS); if (raw) store = Object.assign(store, JSON.parse(raw)); } catch(e) {}
 function save(){ try { localStorage.setItem(LS, JSON.stringify(store)); } catch(e) {} }
 
-/* streak */
-(function(){
+/* streak — solo con actividad real (decisión 2026-10-31): se marca al ganar XP, NO al abrir */
+function streakMark(){
   const today = new Date().toDateString();
   const yest = new Date(Date.now()-864e5).toDateString();
   if (store.streak.last !== today) {
@@ -690,7 +690,7 @@ function save(){ try { localStorage.setItem(LS, JSON.stringify(store)); } catch(
     store.streak.last = today;
     save();
   }
-})();
+}
 
 function levelFor(xp){
   let idx = 0;
@@ -765,6 +765,7 @@ function flyXP(n){
   };
 }
 function addXP(n, label){
+  streakMark();
   const before = levelFor(store.xp).idx;
   store.xp += n; save();
   $('#xp-val').textContent = store.xp;
