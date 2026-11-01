@@ -1,0 +1,11 @@
+/* Fuentes locales (subconjunto latino) — sin CDN externo (estándar ED-Dev) — genera con scripts/gen-fonts.mjs */
+@font-face{font-family:"Unbounded";font-style:normal;font-weight:700;font-display:swap;src:url(/src/fonts/Unbounded-700.woff2) format("woff2");unicode-range:U+0000-00FF,U+0131,U+0152-0153} /* 50KB */
+@font-face{font-family:"Unbounded";font-style:normal;font-weight:800;font-display:swap;src:url(/src/fonts/Unbounded-800.woff2) format("woff2");unicode-range:U+0000-00FF,U+0131,U+0152-0153} /* 50KB */
+@font-face{font-family:"Outfit";font-style:normal;font-weight:400;font-display:swap;src:url(/src/fonts/Outfit-400.woff2) format("woff2");unicode-range:U+0000-00FF,U+0131,U+0152-0153} /* 32KB */
+@font-face{font-family:"Outfit";font-style:normal;font-weight:500;font-display:swap;src:url(/src/fonts/Outfit-500.woff2) format("woff2");unicode-range:U+0000-00FF,U+0131,U+0152-0153} /* 32KB */
+@font-face{font-family:"Outfit";font-style:normal;font-weight:600;font-display:swap;src:url(/src/fonts/Outfit-600.woff2) format("woff2");unicode-range:U+0000-00FF,U+0131,U+0152-0153} /* 32KB */
+@font-face{font-family:"Outfit";font-style:normal;font-weight:700;font-display:swap;src:url(/src/fonts/Outfit-700.woff2) format("woff2");unicode-range:U+0000-00FF,U+0131,U+0152-0153} /* 32KB */
+@font-face{font-family:"Outfit";font-style:normal;font-weight:800;font-display:swap;src:url(/src/fonts/Outfit-800.woff2) format("woff2");unicode-range:U+0000-00FF,U+0131,U+0152-0153} /* 32KB */
+@font-face{font-family:"JetBrains Mono";font-style:normal;font-weight:400;font-display:swap;src:url(/src/fonts/JetBrainsMono-400.woff2) format("woff2");unicode-range:U+0000-00FF,U+0131,U+0152-0153} /* 31KB */
+@font-face{font-family:"JetBrains Mono";font-style:normal;font-weight:600;font-display:swap;src:url(/src/fonts/JetBrainsMono-600.woff2) format("woff2");unicode-range:U+0000-00FF,U+0131,U+0152-0153} /* 31KB */
+@font-face{font-family:"JetBrains Mono";font-style:normal;font-weight:700;font-display:swap;src:url(/src/fonts/JetBrainsMono-700.woff2) format("woff2");unicode-range:U+0000-00FF,U+0131,U+0152-0153} /* 31KB */
