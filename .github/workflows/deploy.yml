@@ -1,0 +1,34 @@
+# AGENT/OS — despliegue a Vercel desde GitHub Actions (sin depender de la red local)
+# Requiere el secret VERCEL_TOKEN (crear en vercel.com/account/tokens).
+# Ejecución manual: gh workflow run deploy.yml -R ericksondaviddev-source/edagentes
+name: deploy
+on:
+  workflow_dispatch:
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Verificar que el repo sirve la app esperada
+        run: |
+          TITLE=$(grep -o '<title>[^<]*</title>' src/agent-os-academy.html | head -1)
+          echo "Titulo local: $TITLE"
+          case "$TITLE" in
+            *"AGENT/OS - Academia de Agentes de IA"*|*"AGENT/OS — Academia de Agents de IA"*) echo "titulo OK";;
+            *"AGENT/OS"*) echo "titulo AGENT/OS detectado: OK";;
+            *) echo "titulo INESPERADO: $TITLE"; exit 1;;
+          esac
+      - name: Desplegar a Vercel (produccion)
+        run: npx vercel deploy --prod --yes --token="${{ secrets.VERCEL_TOKEN }}"
+      - name: Verificar titulo de la pagina desplegada
+        run: |
+          sleep 8
+          TITLE=$(curl -s https://edagentes.vercel.app | grep -o '<title>[^<]*</title>' | head -1)
+          echo "Titulo servido: $TITLE"
+          case "$TITLE" in
+            *"AGENT/OS"*) echo "DOMAIN-VERIFIED: ${TITLE}";;
+            *) echo "ADVERTENCIA: el dominio no sirve AGENT/OS (posible nombre ocupado)"; exit 1;;
+          esac
