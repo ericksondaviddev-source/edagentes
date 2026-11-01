@@ -19,6 +19,7 @@ Academia web gamificada (HTML autocontenido) para aprender a dirigir agentes de 
 - (pendiente: ninguna verificada dos veces todavía)
 
 ## Vara actual (qué subió 1% y cuándo)
+- 2026-10-31 — **Sello completo de marca**: signo SVG propio (favicon nítido a 16px + logo horizontal para fondos oscuros y claros), tarjeta og de compartir desde la app real, y tipografía 100% local (10 woff2 latín, 349 KB, cero CDN). Cadena verde permanente: `node scripts/probe.mjs` da VERDE en local y producción con aserciones numéricas. Vara nueva: **ningún proyecto ED-Dev sin logo.svg/logo-claro/favicon.svg + probe**.
 - 2026-10-31 — **APP PUBLICADA: https://edagentes.vercel.app** ✓ (título verificado en vivo: `AGENT/OS — Academia de Agentes de IA`; firma ED-Dev presente; 200 OK). Pipeline activo: `gh workflow run deploy.yml` → GitHub Actions (nube, salta el bloqueo local de api.vercel.com) → deploy `--prod` → verificación de `<title>` integrada en el workflow. Vara nueva: re-publicar es un solo comando de mi lado, con verificación automática de dominio.
 - 2026-10-31 — Subió 1%: racha honesta (solo con actividad real, no por abrir). Además: re-publicar quedó como comando propio con verificación de `<title>` automática — ya está probado dos veces (deploy 1 y redeploy de la racha).
 - 2026-10-27 — Subió 1%: contenido separado del motor (`src/data/`, 3 archivos editables) + proyecto con memoria viva y evidencias en docs/. La vara ahora: editar una lección NO requiere tocar el HTML; y todo cierre de pieza lleva captura verificada en navegador.
