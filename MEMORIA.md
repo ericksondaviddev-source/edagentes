@@ -14,7 +14,8 @@ Academia web gamificada (HTML autocontenido) para aprender a dirigir agentes de 
 - 2026-10-27 — Pieza 3: three fixes acotados. 1) Router: `go('simplay'/'forged')` mapea a su pantalla real — misión abre con clic real. 2) Quiz `blank`: normaliza espacios dobles. 3) Video hero con `poster.jpg` (5 KB, gratis) — el video reproduce (9.5 s), consola con 0 errores. Racha-por-apertura: decisión de diseño intacta (por validar con Erickson).
 
 ## Lecciones verificadas
-- 2026-10-31 — (primer hallazgo) La sesión de Vercel CLI vive en `%APPDATA%\com.vercel.cli\Data\auth.json` (APPDATA\Roaming, no `~/.vercel` ni LOCALAPPDATA). El defecto: el token guardado ahí **expira** (el de esta máquina venció 2026-10-29). Un token guardado en otro proyecto `.vercel/project.json` solo trae IDs, no credencial.
+- 2026-10-31 — **Rutas absolutas en todo asset que carga el HTML** si va a servirse en la raíz (rewrites de Vercel): los `src` relativos mueren con 404 y solo lo que no depende de datos sigue vivo. Verificado: el bug pasó en el deploy real y la prueba con servidor local que imita `/` lo detectó ANTES de publicar.
+- 2026-10-31 — La sesión de Vercel CLI vive en `%APPDATA%\com.vercel.cli\Data\auth.json` (APPDATA\Roaming, no `~/.vercel` ni LOCALAPPDATA). El defecto: el token guardado ahí **expira** (el de esta máquina venció 2026-10-29). Un token guardado en otro proyecto `.vercel/project.json` solo trae IDs, no credencial.
 - (pendiente: ninguna verificada dos veces todavía)
 
 ## Vara actual (qué subió 1% y cuándo)
