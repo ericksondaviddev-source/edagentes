@@ -37,7 +37,27 @@ const MODULES = [
       ['contexto','Cuántos tokens "cabeza" el modelo a la vez. Es un recurso finito: adminístralo.'],
       ['AGENTS.md','Archivo de instrucciones persistentes que el agente carga en cada sesión.'],
       ['MCP','Protocolo para conectar herramientas externas al agente.']
-    ]}
+    ]},
+    {t:'h', x:'Capa 1 · Fundamentos de IA — promt engineering y vibe coding'},
+    {t:'p', x:'Hay dos formas de pedirle cosas a una IA. <b>Vibe coding</b> es escribir sin orden: «hazme una app de pagos» y cruzar los dedos. <b>Ingeniería de software con IA</b> es dar pasos claros, revisar lo que genera y solo aceptar lo que funciona. La diferencia es el control: tú diriges, la IA ejecuta.'},
+    {t:'list', items:[
+      '<b>Prompt engineering profesional:</b> contexto quirúrgico (@ solo lo necesario), instrucciones claras, un objetivo por mensaje.',
+      '<b>Vibe coding:</b> útil para prototipar rápido, pero no para código que otros vayan a usar o que vaya a producción.',
+      '<b>Regla de oro:</b> si no entiendes lo que el agente acaba de escribir, no lo commits. Pregúntale hasta que lo entiendas.'
+    ]},
+    {t:'tip', x:'Antes de escribir el prompt, define el criterio de éxito: ¿cómo sabrás que la tarea quedó bien hecha? Si no lo defines, el agente decide por ti.'},
+    {t:'h', x:'Capa 4 · Spec-Driven Development (SDD) — el orden antes del código'},
+    {t:'p', x:'SDD es escribir la especificación ANTES de tocar el código. En lugar de «hazme la app», escribes: qué hace, cómo se prueba, qué archivos tocas, en qué orden. El agente ejecuta el plan; tú lo apruebas paso a paso.'},
+    {t:'list', items:[
+      '<b>1 · Constitución:</b> reglas del proyecto (stack, estilo, zonas prohibidas).',
+      '<b>2 · Especificación:</b> qué hace la funcionalidad y sus casos límite.',
+      '<b>3 · Clarificación:</b> preguntas y respuestas para quitar ambigüedades.',
+      '<b>4 · Planificación:</b> arquitectura y archivos a modificar.',
+      '<b>5 · Tareas:</b> pasos pequeños y verificables.',
+      '<b>6 · Implementación:</b> tarea por tarea, validando cada avance.',
+      '<b>7 · Validación:</b> tests y diff revisado antes del commit.'
+    ]},
+    {t:'code', x:'# Tu primera spec (specs/001-hola/spec.md)\n## Objetivo\nMostrar "Hola, mundo" en consola al ejecutar npm start.\n## Criterios de éxito\n- `npm start` imprime exactamente: Hola, mundo\n- No hay errores de lint\n## Archivos\n- index.js (crear)\n- package.json (editar: añadir script start)'},
   ],
   quiz:[
     {type:'single', q:'¿Cuál es la diferencia esencial entre un chatbot y un agente de código?',
@@ -84,7 +104,19 @@ const MODULES = [
     ]},
     {t:'h', x:'Sesiones: tu historia es valiosa'},
     {t:'p', x:'pi guarda sesiones automáticamente: <code>/new</code>, <code>/resume</code>, <code>/name</code>, <code>/session</code>. Al salir, retoma con <code>pi --continue</code>. Para explorar otro enfoque sin perder el hilo: <code>/tree</code>, <code>/fork</code>, <code>/clone</code>. Y cuando el contexto crece: <code>/compact</code>.'},
-    {t:'tip', x:'El footer muestra carpeta, sesión, modelo, uso de contexto y <b>coste acumulado</b>. Los pilotos profesionales miran los instrumentos constantemente.'}
+    {t:'tip', x:'El footer muestra carpeta, sesión, modelo, uso de contexto y <b>coste acumulado</b>. Los pilotos profesionales miran los instrumentos constantemente.'},
+    {t:'h', x:'Capa 1 · Fundamentos — contexto quirúrgico con @'},
+    {t:'p', x:'No le pegues el proyecto entero al agente. Usa <code>@</code> para incluir solo el archivo que necesita. Cada token irrelevante degrada la respuesta y sube el coste. Piensa en @ como cirugía: cortes precisos, nada de abrir el paciente entero.'},
+    {t:'code', x:'# Mal: contexto sucio\nResume el proyecto y dime qué cambiar\n\n# Bien: contexto quirúrgico\nResume @notas-reunion.md y guarda los action items en @tareas.md'},
+    {t:'h', x:'Capa 4 · SDD con pi — planear antes de ejecutar'},
+    {t:'list', items:[
+      '<b>Clarifica:</b> qué quieres que haga pi y cómo sabrás que quedó bien.',
+      '<b>Red de seguridad:</b> commit limpio o rama nueva antes de pedirle nada.',
+      '<b>Plan:</b> pídele el enfoque primero y valídalo TÚ antes de que edite.',
+      '<b>Ejecuta en pasos:</b> una tarea pequeña por mensaje, no «hazme la app».',
+      '<b>Revisa el diff:</b> mira lo que cambió antes de aceptar.'
+    ]},
+    {t:'warn', x:'Un mega-prompt de pi es como pedirle a un junior «construye el e-commerce»: devuelve basura cara de corregir. Descompón en pasos verificables y cada error te costará poco.'},
   ],
   quiz:[
     {type:'blank', q:'Escribe el comando para arrancar pi en la carpeta actual:',
@@ -134,7 +166,21 @@ const MODULES = [
       '<b>Paquetes</b> — instala skills + extensiones + temas de la comunidad en un paso.',
       '<b>SDK</b> — embebe pi dentro de tus propias aplicaciones.'
     ]},
-    {t:'warn', x:'Las skills y extensiones de proyectos se ejecutan con tus permisos. Revisa el código de terceros antes de otorgar project trust a una carpeta.'}
+    {t:'warn', x:'Las skills y extensiones de proyectos se ejecutan con tus permisos. Revisa el código de terceros antes de otorgar project trust a una carpeta.'},
+    {t:'h', x:'Capa 1 · Fundamentos — vibe coding vs ingeniería al escribir una skill'},
+    {t:'p', x:'Escribir una skill «por vibe» es copiar un SKILL.md de internet y esperar que funcione. Ingeniería es definir cuándo se usa, qué entrada espera y qué salida devuelve. La description es el enrutador: si no dice cuándo aplicar, el agente nunca la elige.'},
+    {t:'list', items:[
+      '<b>Skill por vibe:</b> «Ayuda con PDFs». El agente la ignora.',
+      '<b>Skill ingenierizada:</b> «Extrae texto y tablas de PDFs. Usar al leer, convertir o inspeccionar PDFs». El agente la usa justo a tiempo.'
+    ]},
+    {t:'h', x:'Capa 4 · SDD — una skill por cada tarea recurrente'},
+    {t:'list', items:[
+      '<b>Identifica</b> una tarea que hagas cada semana (ej. escribir commits, extraer datos de PDF).',
+      '<b>Especifica</b>: entrada, salida, reglas de estilo.',
+      '<b>Crea</b> la skill con SKILL.md + archivos de apoyo.',
+      '<b>Prueba</b> forzándola con <code>/skill:nombre</code> y afina con el uso real.'
+    ]},
+    {t:'tip', x:'Tu certificación en este módulo no es memorizar comandos: es tener una skill real que uses cada semana y un AGENTS.md que pi anuncie al arrancar.'},
   ],
   quiz:[
     {type:'single', q:'Necesitas que pi siempre respete las convenciones de tu repo. ¿Mecanismo ideal?',
@@ -179,7 +225,24 @@ const MODULES = [
       '<b>Permisos</b> — granulares por herramienta y patrón de comando.'
     ]},
     {t:'code', x:'{\n  "permission": {\n    "edit": "allow",\n    "bash": {\n      "git push": "ask",\n      "rm -rf *": "deny",\n      "*": "allow"\n    }\n  }\n}'},
-    {t:'tip', x:'Los agentes custom viven en <code>.opencode/agent/</code> como Markdown con frontmatter: define modelo, tools y permisos por rol (reviewer, test-writer, docs…).'}
+    {t:'tip', x:'Los agentes custom viven en <code>.opencode/agent/</code> como Markdown con frontmatter: define modelo, tools y permisos por rol (reviewer, test-writer, docs…).'},
+    {t:'h', x:'Capa 1 · Fundamentos — Plan es ingeniería, Build es vibe si no supervisas'},
+    {t:'p', x:'En modo Plan opencode solo lee y diseña: es ingeniería de software. En modo Build ejecuta: si no revisas el diff, es vibe coding. El profesional planea en Plan, valida contigo, y solo entonces pasa a Build.'},
+    {t:'list', items:[
+      '<b>Plan (solo lectura):</b> diseña el enfoque, detecta riesgos, no toca archivos.',
+      '<b>Build (ejecuta):</b> aplica cambios que tú has aprobado.',
+      '<b>Tu trabajo:</b> revisar el git diff como tech lead. Nadie mergea a ciegas.'
+    ]},
+    {t:'h', x:'Capa 5 · Multiagentes y subagentes en opencode'},
+    {t:'p', x:'Un subagente es un agente especializado que trabaja en segundo plano sin bloquear al principal. En opencode los defines en <code>.opencode/agent/</code> con su modelo, sus tools y sus permisos.'},
+    {t:'list', items:[
+      '<b>Coordinador:</b> recibe tu pedido, gestiona el flujo y delega.',
+      '<b>Planificador:</b> solo lectura, genera spec.md y plan.md (SDD).',
+      '<b>Implementador:</b> edita archivos ejecutando tasks.md.',
+      '<b>Revisor:</b> ejecuta tests, inspecciona el diff, valida la constitución.'
+    ]},
+    {t:'code', x:'# .opencode/agent/reviewer.md\n---\nname: reviewer\nmodel: qwen2.5-coder-7b\ntools: [read, grep, bash]\n---\nEres el revisor de QA. Ejecuta los tests, inspecciona el git diff y valida que no se toquen zonas prohibidas del AGENTS.md. Reporta hallazgos, no edits.'},
+    {t:'tip', x:'Usa subagentes para tareas intensivas en paralelo: investigación (solo lectura), revisión de tests, auditoría de seguridad. No los uses para tareas triviales de 10 segundos.'},
   ],
   quiz:[
     {type:'single', q:'¿Qué hace /init en opencode?',
@@ -239,7 +302,17 @@ const MODULES = [
       '<b>Flujo híbrido</b>: local para lo mecánico y voluminoso, cloud para lo difícil. Así trabajan los pros.',
       '<b>Mide</b>: si procesa el prompt más rápido de lo que escribe, hay margen de contexto; si va a 2 tok/s, baja modelo o contexto.'
     ]},
-    {t:'tip', x:'Un 7B bien dirigido —con contexto enfocado e instrucciones concretas— suele <b>ganar</b> a un 14B mal alimentado. Dirigir > tamaño.'}
+    {t:'tip', x:'Un 7B bien dirigido —con contexto enfocado e instrucciones concretas— suele <b>ganar</b> a un 14B mal alimentado. Dirigir > tamaño.'},
+    {t:'h', x:'Capa 3 · Harness avanzado — modelo local + MCP'},
+    {t:'p', x:'Tu modelo local sirve de puente a MCP: con <code>pi mcp add filesystem</code> le das acceso a tus archivos, y con <code>/llama</code> eliges el modelo que ejecuta las herramientas. Todo queda en tu máquina, sin enviar código a la nube.'},
+    {t:'code', x:'# Conectar pi a un servidor MCP local\npi mcp add archivo -- npx -y @modelcontextprotocol/server-filesystem .\npi mcp list\n\n# Luego elige tu modelo local\n/login llama.cpp\nhttp://127.0.0.1:8080\n/llama\n/model'},
+    {t:'h', x:'Capa 4 · SDD con modelo local'},
+    {t:'list', items:[
+      '<b>Con modelo pequeño (local):</b> tareas mecánicas y voluminosas (renombrar, extraer datos, generar datos de prueba).',
+      '<b>Con modelo grande (cloud):</b> arquitectura, especificación, debugging difícil.',
+      '<b>Flujo híbrido profesional:</b> especifica en cloud, implementa lo mecánico en local.'
+    ]},
+    {t:'warn', x:'Con contexto grande (-c 131072) en un PC humilde entras en swap. Empieza en 4096–8192 y sube solo si lo necesitas. El contexto mata equipos más que el modelo.'},
   ],
   quiz:[
     {type:'single', q:'Para coding en hardware modesto, ¿qué cuantización es el punto dulce calidad/RAM?',
@@ -294,7 +367,23 @@ const MODULES = [
       'Decisiones de diseño que son gusto personal: el agente propone, tú decides.',
       'Código crítico sin tests: primero la red de seguridad, después el agente.'
     ]},
-    {t:'tip', x:'Tu certificación final es este módulo dominado + las misiones del simulador. Después: el terminal real. El bucle es el mismo — razona, actúa, observa, repite.'}
+    {t:'tip', x:'Tu certificación final es este módulo dominado + las misiones del simulador. Después: el terminal real. El bucle es el mismo — razona, actúa, observa, repite.'},
+    {t:'h', x:'Capa 4 · SDD — los 7 pasos completos'},
+    {t:'list', items:[
+      '<b>1 · Constitución (docs/constitution.md):</b> reglas innegociables del repo (stack, estilo, zonas prohibidas).',
+      '<b>2 · Especificación (specs/001-x/spec.md):</b> qué hace la función y sus casos límite, sin código aún.',
+      '<b>3 · Clarificación:</b> un agente QA detecta ambigüedades y vacíos; tú las resuelves.',
+      '<b>4 · Planificación (plan.md):</b> arquitectura, datos y archivos a modificar.',
+      '<b>5 · Tareas (tasks.md):</b> pasos atómicos, pequeños y verificables.',
+      '<b>6 · Implementación:</b> tarea por tarea, validando cada avance.',
+      '<b>7 · Validación:</b> tests y diff revisado antes del commit.'
+    ]},
+    {t:'code', x:'# Tu constitución (docs/constitution.md)\n## Reglas innegociables\n- Stack: Node 22 + Fastify, TypeScript estricto\n- Tests obligatorios antes de commit\n- Nunca modificar /infra sin confirmación explícita\n- Contexto quirúrgico: @ solo los archivos necesarios'},
+    {t:'h', x:'Capa 3 · Harness avanzado — MCP en el flujo profesional'},
+    {t:'p', x:'Antes de dejar que un agente ejecute, valida que sus servidores MCP estén vivos: <code>pi mcp list</code> en verde. Un servidor caído silencioso es la causa #1 de agentes que «fallan sin explicar por qué».'},
+    {t:'h', x:'Capa 5 · Multiagentes — revisión en paralelo'},
+    {t:'p', x:'Lanza varios subagentes al mismo tiempo: uno revisa el diff, otro ejecuta los tests, otro audita la accesibilidad. Reportan al coordinador, tú decides qué se mergea.'},
+    {t:'tip', x:'SDD no es burocracia: es la red de seguridad que hace barato corregir errores. Un error detectado en la especificación cuesta minutos; el mismo error en producción, días.'},
   ],
   quiz:[
     {type:'order', q:'Ordena el ciclo de trabajo profesional con agentes:',
@@ -361,7 +450,21 @@ const MODULES = [
     ]},
     {t:'h', x:'En opencode'},
     {t:'code', x:'// opencode.json\n{\n  "mcp": {\n    "filesystem": {\n      "type": "local",\n      "command": ["npx", "-y", "@modelcontextprotocol/server-filesystem", "."]\n    },\n    "docs": { "type": "remote", "url": "https://example.com/mcp" }\n  }\n}'},
-    {t:'tip', x:'Migrar entre clientes: Claude Desktop/Cursor copian tal cual; desde opencode, local → stdio (separa command y args), environment → env, {env:NAME} → ${NAME}. Después: pi mcp list para validar.'}
+    {t:'tip', x:'Migrar entre clientes: Claude Desktop/Cursor copian tal cual; desde opencode, local → stdio (separa command y args), environment → env, {env:NAME} → ${NAME}. Después: pi mcp list para validar.'},
+    {t:'h', x:'Capa 1 · Fundamentos — no conectes MCP por vibe'},
+    {t:'p', x:'Añadir un servidor MCP «porque sí» es vibe coding. Ingeniería es definir qué tarea necesitas, qué servidor la resuelve y qué herramientas le expones al modelo. Menos herramientas visibles = menos contexto = mejor razonamiento.'},
+    {t:'list', items:[
+      '<b>Por vibe:</b> «añado 5 servidores MCP por si acaso».',
+      '<b>Ingenierizado:</b> «añado filesystem porque necesito leer mis notas cada sesión».'
+    ]},
+    {t:'h', x:'Capa 4 · SDD — especifica antes de añadir un servidor MCP'},
+    {t:'list', items:[
+      '<b>Constitución:</b> qué servidores están permitidos en tu stack.',
+      '<b>Especificación:</b> qué tarea hace cada servidor y qué tools expone.',
+      '<b>Planificación:</b> stdio para local, HTTP para remoto.',
+      '<b>Validación:</b> <code>pi mcp list</code> en verde antes de usarlo en una sesión real.'
+    ]},
+    {t:'warn', x:'Los servidores MCP se ejecutan con TUS permisos. Audita el código antes de conectar, y no otorgues project trust a carpetas ajenas a ciegas.'},
   ],
   quiz:[
     {type:'single', q:'¿Qué problema resuelve MCP?',
@@ -413,7 +516,16 @@ const MODULES = [
       '<b>Construye</b> — el SDK de pi te deja embeber agentes en tus propias apps.',
       '<b>Multiplica</b> — dirigir agentes es una habilidad que se enseña enseñando.',
       '<b>Madura la Forja</b> — tus artefactos reales evolucionan con cada proyecto; vuelve a regenerarlos cuando tu stack cambie.'
-    ]}
+    ]},
+    {t:'h', x:'Capas cruzadas en tu certificación'},
+    {t:'table', rows:[
+      ['Capa 1 · Fundamentos', 'Tu modelo elegido (cloud o local) y por qué lo elegiste para cada tarea.'],
+      ['Capa 2 · Harness engineering', 'AGENTS.md real en tu proyecto, anunciado por pi al arrancar.'],
+      ['Capa 3 · Harness avanzado', 'Una skill semanal + un servidor MCP validado con pi mcp list.'],
+      ['Capa 4 · SDD', 'docs/constitution.md + una spec completa con plan y tasks antes de implementar.'],
+      ['Capa 5 · Multiagentes', 'Subagente revisor (QA) que valida el diff antes de tu commit.']
+    ]},
+    {t:'tip', x:'Tu certificación no es un examen de la app: es haber aplicado las 5 capas en tu terminal real, con evidencia.'},
   ],
   quiz:[
     {type:'single', q:'El agente lleva 3 ediciones raras y el contexto va al 90%. ¿Secuencia correcta?',
@@ -496,7 +608,23 @@ const MODULES = [
       '<b>Nada de procesos, sockets o timers en la factory</b> — arráncalos desde session_start o desde el comando/tool que los necesita.',
       '<b>Limpia en session_shutdown</b> de forma idempotente: cancelación, reload y salida convergen en el mismo camino.',
       '<b>Empieza por el ejemplo más pequeño</b> que coincida con tu punto de integración (hay ejemplos oficiales en el repo de pi).'
-    ]}
+    ]},
+    {t:'h', x:'Capa 1 · Fundamentos — una extensión no es una skill con más texto'},
+    {t:'p', x:'La skill da instrucciones; la extensión ejecuta código TypeScript dentro de pi. Si solo necesitas que el agente sepa algo, usa una skill. Si necesitas que haga algo (un comando /, una tool, reaccionar a un evento), usa una extensión.'},
+    {t:'list', items:[
+      '<b>Skill:</b> conocimiento bajo demanda (SKILL.md + archivos de apoyo).',
+      '<b>Extensión:</b> comportamiento ejecutable (tools, comandos /, eventos, UI).'
+    ]},
+    {t:'h', x:'Capa 4 · SDD — desarrolla una extensión paso a paso'},
+    {t:'list', items:[
+      '<b>Especifica:</b> qué punto de integración necesitas (registerTool, registerCommand, pi.on).',
+      '<b>Planifica:</b> el archivo hello.ts y su factory que recibe ExtensionAPI.',
+      '<b>Implementa:</b> pruébala en caliente con <code>pi --extension ./hello.ts</code>.',
+      '<b>Valida:</b> /reload y observa que el comando / funciona.'
+    ]},
+    {t:'tip', x:'Empieza por el ejemplo más pequeño que coincida con tu punto de integración. No construyas una extensión completa antes de probar una sola herramienta.'},
+    {t:'h', x:'Capa 5 · Multiagentes — un subagente prueba tu extensión'},
+    {t:'p', x:'Mientras tú develops la extensión, un subagente revisor puede leer los tests, inspeccionar el diff y validar que no rompa permisos. Tú te quedas con la decisión final de publicar.'},
   ],
   quiz:[
     {type:'single', q:'¿Qué añade una extensión que una skill no puede?',
