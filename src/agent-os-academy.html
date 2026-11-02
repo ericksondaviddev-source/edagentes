@@ -160,18 +160,38 @@ input{font-family:inherit;color:inherit}
 @keyframes revealIn{from{opacity:0;transform:translateY(18px) scale(.98)}to{opacity:1;transform:none}}
 
 /* ============ RAIL HORIZONTAL · sello ED-Dev ============ */
+.mod-wrap{position:relative}
 .mod-rail{
-  display:flex;gap:12px;margin:0 -16px;padding:4px 16px 16px;
-  overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;
-  mask-image:linear-gradient(90deg,transparent 0,#000 14px,#000 calc(100% - 14px),transparent 100%);
-  -webkit-mask-image:linear-gradient(90deg,transparent 0,#000 14px,#000 calc(100% - 14px),transparent 100%);
+  display:flex;gap:12px;margin:0 -16px;padding:4px 16px 28px;
+  overflow-x:auto;scroll-snap-type:x proximity;
+  scrollbar-width:thin;scrollbar-color:color-mix(in srgb,var(--ac) 60%,transparent) var(--bg1);
+  mask-image:linear-gradient(90deg,transparent 0,#000 20px,#000 calc(100% - 20px),transparent 100%);
+  -webkit-mask-image:linear-gradient(90deg,transparent 0,#000 20px,#000 calc(100% - 20px),transparent 100%);
 }
-.mod-rail::-webkit-scrollbar{display:none}
+.mod-rail::-webkit-scrollbar{height:8px}
+.mod-rail::-webkit-scrollbar-track{background:var(--bg1)}
+.mod-rail::-webkit-scrollbar-thumb{background:color-mix(in srgb,var(--ac) 55%,transparent);border-radius:4px;border:2px solid var(--bg1)}
+.mod-rail::-webkit-scrollbar-thumb:hover{background:var(--ac)}
 .mod-rail .mod{flex:0 0 min(76vw,290px);scroll-snap-align:center;min-height:225px}
 @media(min-width:780px){
-  .mod-rail{margin:0;padding:4px 2px 16px}
+  .mod-wrap{padding:0 60px}
+  .mod-rail{margin:0;padding:4px 2px 28px}
   .mod-rail .mod{flex:0 0 280px}
 }
+
+/* Navegación del rail · flechas izquierda/derecha */
+.mod-nav-btn{position:absolute;top:50%;transform:translateY(-50%);width:44px;height:44px;border-radius:14px;border:1px solid var(--stroke2);background:var(--glass2);color:var(--text);font-size:24px;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(10px);transition:all .2s;opacity:0;visibility:hidden;z-index:30;cursor:pointer}
+.mod-nav-btn.show{opacity:1;visibility:visible}
+.mod-nav-btn:hover{background:var(--ac);color:var(--ink);border-color:var(--ac)}
+.mod-nav-btn:active{transform:scale(.92)}
+.mod-nav-prev{left:10px}
+.mod-nav-next{right:10px}
+.mod-scroll-hint{position:absolute;top:12px;left:50%;transform:translateX(-50%);pointer-events:none;color:var(--faint);font-size:11px;letter-spacing:1px;text-transform:uppercase;font-family:var(--font-m);opacity:.7;transition:opacity .3s;z-index:30}
+.mod-scroll-hint.show{opacity:1}
+
+/* Barra de progreso del scroll */
+.mod-scroll-progress{position:absolute;bottom:0;left:0;right:0;height:3px;background:var(--stroke);transform:scalex(0);transform-origin:left;transition:transform .2s ease;z-index:25}
+.mod-scroll-progress .mod-scroll-fill{height:100%;background:linear-gradient(90deg,var(--ac),var(--sky));border-radius:3px;transform:scalex(0);transform-origin:left}
 
 /* Hero */
 .hero{padding:22px}
@@ -896,12 +916,49 @@ function renderHome(){
   $('#screen-home').innerHTML = `
     <div class="bento">${hero}${stats}</div>
     <div class="sec-title"><h2>Módulos</h2><span>${MODULES.length} niveles · arrastra →</span></div>
-    <div class="mod-rail">${mods}</div>
+    <div class="mod-wrap">
+      <button class="mod-nav-btn mod-nav-prev" id="mod-prev">‹</button>
+      <div class="mod-rail" id="mod-rail">${mods}</div>
+      <button class="mod-nav-btn mod-nav-next" id="mod-next">›</button>
+      <div class="mod-scroll-progress"><div class="mod-scroll-fill" id="mod-scroll-fill"></div></div>
+    </div>
     <div class="bento">${feats}</div>`;
   requestAnimationFrame(() => {
     const ring = $('#hero-ring');
     if (ring) ring.style.strokeDashoffset = (C * (1 - p.pct/100)).toFixed(1);
   });
+
+  /* ===== RAIL HORIZONTAL · navegación y progreso ===== */
+  const rail = $('#mod-rail');
+  const btnPrev = $('#mod-prev');
+  const btnNext = $('#mod-next');
+  const fill = $('#mod-scroll-fill');
+  const hint = document.querySelector('.mod-scroll-hint');
+  const STEP = 320;
+
+  function updateRailNav(){
+    if(!rail) return;
+    const maxScroll = rail.scrollWidth - rail.clientWidth;
+    const cur = rail.scrollLeft;
+    const pct = maxScroll > 0 ? (cur / maxScroll) * 100 : 0;
+    if(fill) fill.style.transform = `scalex(${pct/100})`;
+    if(btnPrev) btnPrev.classList.toggle('show', cur > 10);
+    if(btnNext) btnNext.classList.toggle('show', cur < maxScroll - 10);
+    if(hint) hint.classList.toggle('show', cur < maxScroll - 10);
+  }
+  if(rail){
+    rail.addEventListener('scroll', updateRailNav);
+    rail.addEventListener('wheel', (e)=>{
+      if(e.deltaY && !e.deltaX){
+        rail.scrollLeft += e.deltaY;
+        e.preventDefault();
+      }
+      updateRailNav();
+    }, {passive:false});
+    updateRailNav();
+  }
+  if(btnPrev) btnPrev.onclick = ()=>{ rail.scrollBy({left:-STEP,behavior:'smooth'}); setTimeout(updateRailNav,300); };
+  if(btnNext) btnNext.onclick = ()=>{ rail.scrollBy({left:STEP,behavior:'smooth'}); setTimeout(updateRailNav,300); };
 }
 
 /* ============ LESSON ============ */
