@@ -58,6 +58,14 @@ const MODULES = [
       '<b>7 · Validación:</b> tests y diff revisado antes del commit.'
     ]},
     {t:'code', x:'# Tu primera spec (specs/001-hola/spec.md)\n## Objetivo\nMostrar "Hola, mundo" en consola al ejecutar npm start.\n## Criterios de éxito\n- `npm start` imprime exactamente: Hola, mundo\n- No hay errores de lint\n## Archivos\n- index.js (crear)\n- package.json (editar: añadir script start)'},
+    {t:'h', x:'Capa 2 · Harness engineering — AGENTS.md en tu primer proyecto'},
+    {t:'p', x:'Coloca un AGENTS.md en la raíz de tu carpeta. Pi lo cargará en cada sesión. Escribe reglas concretas, no un manual.'},
+    {t:'code', x:'# AGENTS.md\n- Stack: Node 22 + Fastify\n- Tests: npm test\n- Nunca modificar /infra sin confirmación'},
+    {t:'h', x:'Capa 3 · Harness avanzado — tu primera skill'},
+    {t:'p', x:'Crea una carpeta con SKILL.md y archivos de apoyo. La description es el enrutador: debe decir qué hace y cuándo usar.'},
+    {t:'code', x:'# name: mi-skill\ndescription: Renombra funciones siguiendo las reglas del repo. Usar al renombrar código.\n---'},
+    {t:'h', x:'Capa 5 · Multiagentes — un subagente revisa tu primera spec'},
+    {t:'p', x:'Un subagente revisor puede leer tu spec.md y decirte si hay ambigüedades antes de que implementes. Tú apruebas o rechazas.'},
   ],
   quiz:[
     {type:'single', q:'¿Cuál es la diferencia esencial entre un chatbot y un agente de código?',
@@ -117,6 +125,18 @@ const MODULES = [
       '<b>Revisa el diff:</b> mira lo que cambió antes de aceptar.'
     ]},
     {t:'warn', x:'Un mega-prompt de pi es como pedirle a un junior «construye el e-commerce»: devuelve basura cara de corregir. Descompón en pasos verificables y cada error te costará poco.'},
+    {t:'h', x:'Capa 2 · Harness engineering — sesiones y contexto en pi'},
+    {t:'p', x:'Pi guarda sesiones automáticamente. Usa /new para empezar limpio, /resume para retomar y /compact para liberar contexto cuando crece. El contexto es tu recurso más valioso.'},
+    {t:'list', items:[
+      '<b>/new:</b> tarea nueva, sin historial viejo.',
+      '<b>/compact:</b> resume la sesión y libera contexto.',
+      '<b>@:</b> incluye solo el archivo que necesitas, contexto quirúrgico.'
+    ]},
+    {t:'h', x:'Capa 3 · Harness avanzado — skill y comando en pi'},
+    {t:'p', x:'Una skill es conocimiento para una tarea recurrente. Un comando custom es comportamiento que disparas con /. Elige skill para saber, comando para hacer.'},
+    {t:'code', x:'# Forzar una skill\n/skill:pdf-tools extraer reporte.pdf\n\n# Crear un comando custom\n/.opencode/commands/feature.md'},
+    {t:'h', x:'Capa 5 · Multiagentes — subagente revisa tu tarea de pi'},
+    {t:'p', x:'Mientras tú pides a pi, un subagente revisor puede inspeccionar el diff y validar que no toque zonas prohibidas. Tú decides qué se acepta.'},
   ],
   quiz:[
     {type:'blank', q:'Escribe el comando para arrancar pi en la carpeta actual:',
@@ -181,6 +201,23 @@ const MODULES = [
       '<b>Prueba</b> forzándola con <code>/skill:nombre</code> y afina con el uso real.'
     ]},
     {t:'tip', x:'Tu certificación en este módulo no es memorizar comandos: es tener una skill real que uses cada semana y un AGENTS.md que pi anuncie al arrancar.'},
+    {t:'h', x:'Capa 2 · Harness engineering — AGENTS.md vivo y memoria'},
+    {t:'p', x:'AGENTS.md no es un manual, es el arnés que le dice al agente cómo trabajar en tu carpeta. En pi se carga solo al arrancar; en opencode se genera con /init. La memoria (memory.md) es el estado que guarda entre sesiones para no empezar de cero cada vez.'},
+    {t:'list', items:[
+      '<b>AGENTS.md:</b> stack, comandos de build/test, convenciones y zonas prohibidas. Máximo 40 líneas.',
+      '<b>memory.md:</b> decisiones, aprendizajes y próximos pasos. Máximo 50 líneas.',
+      '<b>Regla:</b> si el agente olvida algo, el contexto está sucio. Limpia con /compact o /new.'
+    ]},
+    {t:'h', x:'Capa 3 · Harness avanzado — comandos custom y skills en pi'},
+    {t:'p', x:'Una skill es conocimiento (SKILL.md). Un comando custom es comportamiento (/mi-comando). Elige skill cuando el agente deba saber algo; elige comando cuando debas hacer algo repetido.'},
+    {t:'list', items:[
+      '<b>Skill:</b> «Extrae texto de PDFs. Usar al leer, convertir o inspeccionar PDFs.»',
+      '<b>Comando custom:</b> «Genera el commit siguiendo las reglas del repo.»',
+      '<b>Forza una skill:</b> /skill:nombre. Forza un comando: /nombre-comando.'
+    ]},
+    {t:'h', x:'Capa 5 · Multiagentes en pi — un subagente revisa tu skill'},
+    {t:'p', x:'Mientras tú escribes la skill, un subagente revisor puede leerla, probarla con /skill:nombre y decirte si la description enruta bien. Tú publicas solo si el revisor da el OK.'},
+    {t:'warn', x:'No publiques una skill sin probarla primero. Una description mala enruta mal y el agente hace lo equivocado.'},
   ],
   quiz:[
     {type:'single', q:'Necesitas que pi siempre respete las convenciones de tu repo. ¿Mecanismo ideal?',
@@ -243,6 +280,18 @@ const MODULES = [
     ]},
     {t:'code', x:'# .opencode/agent/reviewer.md\n---\nname: reviewer\nmodel: qwen2.5-coder-7b\ntools: [read, grep, bash]\n---\nEres el revisor de QA. Ejecuta los tests, inspecciona el git diff y valida que no se toquen zonas prohibidas del AGENTS.md. Reporta hallazgos, no edits.'},
     {t:'tip', x:'Usa subagentes para tareas intensivas en paralelo: investigación (solo lectura), revisión de tests, auditoría de seguridad. No los uses para tareas triviales de 10 segundos.'},
+    {t:'h', x:'Capa 2 · Harness engineering — Plan vs Build en opencode'},
+    {t:'p', x:'Con Tab alternas entre Plan (solo lectura, diseña sin tocar nada) y Build (ejecuta cambios). El flujo pro: planea en Plan, valida TÚ, y solo entonces pasa a Build.'},
+    {t:'list', items:[
+      '<b>Plan:</b> diseño, análisis de riesgos, sin editar archivos.',
+      '<b>Build:</b> aplica cambios que ya aprobaste.',
+      '<b>Tu trabajo:</b> revisar el git diff como tech lead.'
+    ]},
+    {t:'h', x:'Capa 3 · Harness avanzado — agente custom en opencode'},
+    {t:'p', x:'Los agentes custom viven en .opencode/agent/ como Markdown con frontmatter. Define modelo, tools y permisos por rol (reviewer, test-writer, docs…).'},
+    {t:'code', x:'# .opencode/agent/reviewer.md\n---\nname: reviewer\nmodel: qwen2.5-coder-7b\ntools: [read, grep, bash]\n---\nEres el revisor de QA. Ejecuta tests, inspecciona el diff y reporta hallazgos.'},
+    {t:'h', x:'Capa 4 · SDD — planificación en opencode'},
+    {t:'p', x:'Antes de Build, pídele a opencode que escriba el plan en plan.md y las tareas en tasks.md. Valida el plan tú antes de autorizar la implementación.'},
   ],
   quiz:[
     {type:'single', q:'¿Qué hace /init en opencode?',
@@ -313,6 +362,18 @@ const MODULES = [
       '<b>Flujo híbrido profesional:</b> especifica en cloud, implementa lo mecánico en local.'
     ]},
     {t:'warn', x:'Con contexto grande (-c 131072) en un PC humilde entras en swap. Empieza en 4096–8192 y sube solo si lo necesitas. El contexto mata equipos más que el modelo.'},
+    {t:'h', x:'Capa 1 · Fundamentos — elige el modelo donde gana'},
+    {t:'p', x:'Un 7B local bien dirigido gana a un 14B mal alimentado. No siempre necesitas el modelo más caro. Usa local para lo mecánico y privado, cloud para lo difícil.'},
+    {t:'list', items:[
+      '<b>Local:</b> privacidad total, coste cero, offline. Ideal para renombrar, extraer datos, generar pruebas.',
+      '<b>Cloud:</b> más inteligencia, pero tu código sale de tu máquina. Ideal para arquitectura y debugging difícil.',
+      '<b>Q4_K_M:</b> punto dulce de calidad/RAM para un 7B en PC humilde.'
+    ]},
+    {t:'h', x:'Capa 2 · Harness engineering — conecta modelo local a pi'},
+    {t:'p', x:'Pi se conecta al router de llama.cpp nativamente. Arranca con --jinja (crítico para tool calling), luego /login llama.cpp y elige con /llama y /model.'},
+    {t:'code', x:'# 1. Arranca servidor local\nllama-server --models-dir ~/models --jinja -ngl 999 -c 8192\n\n# 2. Conecta pi\n/login llama.cpp\nhttp://127.0.0.1:8080\n\n# 3. Carga y selecciona\n/llama\n/model'},
+    {t:'h', x:'Capa 5 · Multiagentes con modelo local — subagente QA offline'},
+    {t:'p', x:'Un subagente revisor ejecuta tests e inspecciona el diff con tu modelo local, sin enviar código a la nube. Ideal para código sensible.'},
   ],
   quiz:[
     {type:'single', q:'Para coding en hardware modesto, ¿qué cuantización es el punto dulce calidad/RAM?',
@@ -384,6 +445,16 @@ const MODULES = [
     {t:'h', x:'Capa 5 · Multiagentes — revisión en paralelo'},
     {t:'p', x:'Lanza varios subagentes al mismo tiempo: uno revisa el diff, otro ejecuta los tests, otro audita la accesibilidad. Reportan al coordinador, tú decides qué se mergea.'},
     {t:'tip', x:'SDD no es burocracia: es la red de seguridad que hace barato corregir errores. Un error detectado en la especificación cuesta minutos; el mismo error en producción, días.'},
+    {t:'h', x:'Capa 1 · Fundamentos — vibe coding vs ingeniería de software'},
+    {t:'p', x:'Vibe coding es «hazme la app» y cruzar los dedos. Ingeniería de software con IA es pasos claros, revisar lo que genera y aceptar solo lo que funciona. Tú diriges, la IA ejecuta.'},
+    {t:'list', items:[
+      '<b>Vibe coding:</b> útil para prototipar rápido, no para producción.',
+      '<b>Ingeniería con IA:</b> criterio de éxito definido antes de empezar, revisión de diff, tests.',
+      '<b>Regla:</b> si no entiendes lo que el agente escribió, no lo commits.'
+    ]},
+    {t:'h', x:'Capa 2 · Harness engineering — el contexto es una inversión'},
+    {t:'p', x:'AGENTS.md vivo, skills por dominio, @ solo archivos necesarios, sesiones cortas por tarea y /compact preventivo. El contexto mal gestionado es la causa #1 de agentes que olvidan o alucinan.'},
+    {t:'code', x:'# Estrategia de contexto\n@ solo archivos exactos\nSesión corta por tarea\n/compact preventivo antes de que llegue al 90%'},
   ],
   quiz:[
     {type:'order', q:'Ordena el ciclo de trabajo profesional con agentes:',
@@ -465,6 +536,17 @@ const MODULES = [
       '<b>Validación:</b> <code>pi mcp list</code> en verde antes de usarlo en una sesión real.'
     ]},
     {t:'warn', x:'Los servidores MCP se ejecutan con TUS permisos. Audita el código antes de conectar, y no otorgues project trust a carpetas ajenas a ciegas.'},
+    {t:'h', x:'Capa 2 · Harness engineering — contexto vía MCP, sin saturar'},
+    {t:'p', x:'MCP conecta tu agente con herramientas externas. Pero no expongas 40 herramientas a la vez: infla el contexto y confunde al modelo. Usa exposición directa solo para lo que usas en cada sesión.'},
+    {t:'list', items:[
+      '<b>direct:</b> herramientas pequeñas y frecuentes, visibles siempre.',
+      '<b>codemode:</b> el modelo las descubre vía scripts, contexto magro.',
+      '<b>hidden:</b> herramientas peligrosas (delete_*), registradas pero inalcanzables.'
+    ]},
+    {t:'h', x:'Capa 3 · Harness avanzado — skill + comando + MCP en una tarea'},
+    {t:'p', x:'Combina las tres capas: una skill que sepa qué hacer, un comando custom que la dispare, y un servidor MCP que le dé acceso a los datos. Así construyes un flujo profesional sin tocar el código del agente.'},
+    {t:'h', x:'Capa 5 · Multiagentes — subagente audita el servidor MCP'},
+    {t:'p', x:'Un subagente revisor puede inspeccionar qué expone cada servidor MCP y advertir si hay herramientas peligrosas expuestas. Tú decides qué se conecta.'},
   ],
   quiz:[
     {type:'single', q:'¿Qué problema resuelve MCP?',
@@ -625,6 +707,15 @@ const MODULES = [
     {t:'tip', x:'Empieza por el ejemplo más pequeño que coincida con tu punto de integración. No construyas una extensión completa antes de probar una sola herramienta.'},
     {t:'h', x:'Capa 5 · Multiagentes — un subagente prueba tu extensión'},
     {t:'p', x:'Mientras tú develops la extensión, un subagente revisor puede leer los tests, inspeccionar el diff y validar que no rompa permisos. Tú te quedas con la decisión final de publicar.'},
+    {t:'h', x:'Capa 2 · Harness engineering — una extensión es arnés, no solo texto'},
+    {t:'p', x:'Una extensión ejecuta código dentro de pi: puede registrar tools, comandos / y reaccionar a eventos. Es el arnés que hace que el agente actúe, no solo sepa.'},
+    {t:'list', items:[
+      '<b>Skill:</b> el agente sabe algo (conocimiento).',
+      '<b>Extensión:</b> el agente hace algo (comportamiento ejecutable).',
+      '<b>Cuándo usar extensión:</b> necesitas un comando /, una tool para el modelo o reaccionar a un evento.'
+    ]},
+    {t:'h', x:'Capa 3 · Harness avanzado — extensión con exposición controlada'},
+    {t:'p', x:'Las tools de una extensión también tienen exposición (direct, codemode, deferred, hidden). Registra todo, activa solo lo necesario con setActiveTools(). No dejes herramientas destructivas expuestas por defecto.'},
   ],
   quiz:[
     {type:'single', q:'¿Qué añade una extensión que una skill no puede?',
