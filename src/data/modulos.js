@@ -374,6 +374,37 @@ const MODULES = [
     {t:'code', x:'# 1. Arranca servidor local\nllama-server --models-dir ~/models --jinja -ngl 999 -c 8192\n\n# 2. Conecta pi\n/login llama.cpp\nhttp://127.0.0.1:8080\n\n# 3. Carga y selecciona\n/llama\n/model'},
     {t:'h', x:'Capa 5 · Multiagentes con modelo local — subagente QA offline'},
     {t:'p', x:'Un subagente revisor ejecuta tests e inspecciona el diff con tu modelo local, sin enviar código a la nube. Ideal para código sensible.'},
+    {t:'h', x:'Sección especial · LLM local en PC de bajos requisitos — sacale el máximo provecho'},
+    {t:'p', x:'No necesitas una PC potente para desarrollar con IA. Con 4–8 GB de RAM y un modelo pequeño bien dirigido, puedes hacer trabajo profesional real. La clave no es el tamaño del modelo: es cómo lo diriges y qué tarea le asignas.'},
+    {t:'list', items:[
+      '<b>Modelos para PC humilde (4–8 GB RAM):</b> Qwen2.5-Coder-1.5B, Qwen2.5-Coder-3B, Llama-3.2-1B, Llama-3.2-3B, Phi-4-mini. Todos en Q4_K_M.',
+      '<b>Modelos para evitar en PC humilde:</b> 7B en Q8, 14B, 32B, 70B. Se tragan la RAM y van lentísimos.',
+      '<b>llama.cpp flags esenciales:</b> <code>--jinja</code> (crítico para agentes), <code>-c 4096</code> o <code>8192</code> (contexto pequeño), <code>--cache-type-k q8_0</code> (mitad de RAM en contexto), <code>-ngl 999</code> (todas las capas GPU que quepan), <code>-fa</code> (flash attention), <code>-t</code> hilos = núcleos físicos.',
+      '<b>Regla de contexto:</b> el contexto mata equipos humildes más que el modelo. Empieza en 4096, sube solo si lo necesitas.',
+      '<b>Flujo híbrido profesional:</b> local para lo mecánico (renombrar, extraer datos, generar pruebas), cloud para lo difícil (arquitectura, debugging complejo).'
+    ]},
+    {t:'code', x:'# Setup completo en PC humilde\n# 1. Arranca servidor local con pocos recursos\nllama-server --models-dir ~/models --jinja -ngl 999 -c 4096 --cache-type-k q8_0 -fa -t 4\n\n# 2. Conecta pi\n/login llama.cpp\nhttp://127.0.0.1:8080\n\n# 3. Carga el modelo pequeño\n/llama\nqwen2.5-coder-3b-q4_k_m\n\n# 4. Selecciónalo para la sesión\n/model'},
+    {t:'tip', x:'Mide tu velocidad: si el modelo responde más rápido de lo que lees, tienes margen. Si va a 2 tok/s o menos, baja el modelo o reduce el contexto.'},
+    {t:'warn', x:'Nunca intentes correr un 70B en 8 GB de RAM. La máquina entrará en swap y será inusable. Realismo > optimismo.'},
+    {t:'h', x:'Sección especial · IA para ciencias y medicina (impacto real, uso responsable)'},
+    {t:'p', x:'La IA puede ser una herramienta poderosa para ciencias y medicina, pero nunca sustituye al criterio profesional. Usa modelos locales para mantener la privacidad de datos sensibles y nunca uses la IA para hacer diagnósticos médicos — eso es potestad del médico.'},
+    {t:'list', items:[
+      '<b>Lo SÍ puedes hacer:</b> redactar resúmenes de papers, revisar bibliografía, procesar datos de salud pública anónimos, ayudar a estructurar investigaciones, generar material educativo.',
+      '<b>Lo NO debes hacer:</b> diagnosticar pacientes, recomendar tratamientos, manejar datos de salud reales sin anonimizar, tomar decisiones clínicas.',
+      '<b>Privacidad primera:</b> usa modelo local (llama.cpp, Ollama) para que los datos nunca salgan de tu máquina.',
+      '<b>Enfoque ED-Dev:</b> la IA es asistente, el profesional es el decisor final.'
+    ]},
+    {t:'code', x:'# Ejemplo: procesar datos de salud pública anónimos con pi local\n# Los datos quedan en tu máquina, nunca suben a la nube\nResume @datos-salud-publica-anonimos.csv y extrae los 3 hallazgos principales\n\n# Siempre revisa el resultado antes de usarlo en un contexto real'},
+    {t:'h', x:'Sección especial · Proyectos personales con impacto real en el mundo'},
+    {t:'p', x:'No construyas «otra app de tareas». Construye algo que resuelva un problema real de tu entorno: tu barrio, tu escuela, tu trabajo local, tu comunidad. El impacto real empieza con un proyecto pequeño y bien hecho.'},
+    {t:'list', items:[
+      '<b>Cómo elegir tu proyecto:</b> problema real, datos accesibles, solución factible con tu stack (pi + opencode + modelo local), valor para alguien más que tú.',
+      '<b>Aplica SDD completo:</b> constitución → especificación → clarificación → planificación → tareas → implementación → validación.',
+      '<b>Ejemplos de impacto real:</b> app para gestionar citas médicas en una clínica pequeña, herramienta de inventario para una escuela rural, asistente para agricultores locales, organizador de turnos para un centro de salud.',
+      '<b>Mide el impacto:</b> ¿cuánta gente usa tu proyecto? ¿qué problema resolvió? ¿cuánto tiempo ahorró?'
+    ]},
+    {t:'code', x:'# Tu constitución de proyecto de impacto (docs/constitution.md)\n## Problema real\nGestionar citas médicas en una clínica pequeña del barrio.\n## Stack\nNode 22 + modelo local Qwen2.5-Coder-3B + pi\n## Reglas innegociables\n- Datos de pacientes nunca salen de la máquina local\n- El médico decide siempre, la IA solo asiste\n- Código abierto para que otros centros lo usen'},
+    {t:'tip', x:'Tu primer proyecto de impacto no tiene que ser grande. Tiene que ser útil para alguien más que tú. Empieza pequeño, termina completo.'},
   ],
   quiz:[
     {type:'single', q:'Para coding en hardware modesto, ¿qué cuantización es el punto dulce calidad/RAM?',
